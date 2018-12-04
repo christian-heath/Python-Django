@@ -1,0 +1,97 @@
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Session Words</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        .header{
+                text-align: center;
+            }
+            .error{
+                color: red;
+            }
+            #button{
+                margin-top: 10px;
+            }
+            #left_half{
+                display: inline-block;
+                float: left;
+                padding: 15px;
+                margin-top: 25px;
+            }
+            #right_half{
+                display: inline-block;
+                float: right;
+                padding: 15px;
+                margin-top: 25px;
+                padding-left: 200px;
+                border-left-style: solid;
+                border-left-color: black;
+                border-left-width: 2px;
+            }
+            .red {
+                color: red;
+            }
+            .green{
+                color: lightgreen;
+            }
+            .blue{
+                color: blue;
+            }
+            .time{
+                color: black;
+            }
+        </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-primary">
+        <h1 class='header'>Word Wall</h1>
+    </nav>
+    <div class="container">
+        <form id="left_half" class='big_form' action='/session_words/add' method='post'>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleFormControlInput1">
+                    <h2>New Word:</h2>
+                </label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" name='word'>
+            </div>
+            <p>Choose Color:</p>
+            <div class="form-group">
+                <input class="form-group-input" value="red" type="radio" name="color" id="red" checked>
+                <label class="form-group-label" for="exampleRadios1">Red</label>
+            </div>
+            <div class="form-group">
+                <input class="form-group-input" value='green' type="radio" name="color" id="green">
+                <label class="form-group-label" for="exampleRadios1">Green</label>
+            </div>
+            <div class="form-group">
+                <input class="form-group-input" value='blue' type="radio" name="color" id="blue">
+                <label class="form-group-label" for="exampleRadios1">Blue</label>
+            </div>
+            <div class="form-group">
+                <input class="form-group-input" name='big_font' type="checkbox" id="defaultCheck1">
+                <label class="form-group-label" for="defaultCheck1">Show in BIG fonts!</label>
+            </div>
+            <button type="submit" value='submit' id="button" class="btn btn-primary">Add</button>
+        </form>
+        <div id='right_half'>
+            <form action="/session_words/clear">
+                {% csrf_token %}
+                <button type='submit' id='button' class='btn btn-danger'>Clear Session</button>
+            </form>
+            {% for i in request.session.words %}
+            <p class='{{i.color}}'><span style="font-size: {{i.showbig}};">{{i.word}}</span> <span class='time'>- added on {{i.time}}</span></p>
+            {%endfor%}
+        </div>
+    </div>
+</body>
+
+</html>
